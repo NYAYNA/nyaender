@@ -29,8 +29,8 @@ Minecraft 1.20.4 서버의 플레이 가이드입니다. 공개할 사이트 파
 GitHub Settings → Developer settings → Personal access tokens → Fine-grained tokens에서 이 저장소만 선택하고 Contents: Read and write 권한의 만료일 있는 토큰을 준비합니다. 관리자 화면의 GitHub 연결 설정에 직접 입력하세요. 토큰은 메모리에만 두며 localStorage, 파일, 커밋에 보관하지 않습니다. SSAPI 키를 사용하지 마세요.
 
 1. 연결하고 최신 내용 불러오기.
-2. 섹션을 펼쳐 이름·안내·보상 설명 수정.
-3. GitHub에 저장. 변경은 site/content.json 커밋으로 기록됩니다.
+2. 공개 위키와 같은 왼쪽 메뉴에서 페이지를 선택하고 카드의 이름·안내·보상 설명을 눌러 직접 수정.
+3. 상단 변경사항 저장 클릭. 변경은 site/content.json 커밋으로 기록됩니다.
 4. Pages 배포가 완료되면 공개 사이트 새로고침.
 
 충돌(409)이 나면 JSON을 내려받아 편집을 보관하고 최신 파일을 다시 읽어 수정합니다. 되돌리기는 GitHub 커밋 Revert로 가능합니다. JSON 파일 내려받기는 로컬 백업이며 공개 저장과 다릅니다.
