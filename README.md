@@ -1,5 +1,9 @@
 # 냔냐의 엔더런 위키
 
+공개 위키: https://nyayna.github.io/ender-run-wiki/
+
+관리자 화면: https://nyayna.github.io/ender-run-wiki/admin/
+
 Minecraft 1.20.4 서버의 플레이 가이드입니다. 공개할 사이트 파일만 들어 있습니다. 서버 API 키, 플레이어 데이터, 월드 파일을 이 저장소에 넣지 마세요.
 
 ## 로컬 실행
