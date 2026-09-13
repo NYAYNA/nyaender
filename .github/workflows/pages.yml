@@ -21,9 +21,14 @@ jobs:
       - name: Validate wiki and admin behavior
         run: node test-admin.cjs
       - uses: actions/configure-pages@v5
+      - name: Prepare public site without admin editor
+        run: |
+          mkdir public-site
+          cp site/index.html site/style.css site/app.js site/content.json public-site/
+          cp -r site/assets public-site/assets
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: public-site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4

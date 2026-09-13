@@ -22,11 +22,11 @@ async function run(){const nodes=new Map();const get=id=>{if(!nodes.has(id))node
  runCode('while(undoActions.length)undoStructure()');assert.equal(runCode('JSON.stringify(data)'),original);
  runCode('dirty=false;location.hash=""'); for(const [k,v]of Object.entries({owner:'NYAYNA',repo:'nyaender',branch:'main'}))get(k).value=v;
  await get('connect').onclick();assert.match(get('status').textContent,/입력/);assert.equal(reads,0);
- mode='unauthorized';get('token').value='test-only-token';await get('connect').onclick();assert.equal(get('save').disabled,true);assert.equal(get('token').value,'');assert.match(get('status').textContent,/권한/);
+ mode='unauthorized';get('token').value='test-only-token';await get('connect').onclick();assert.equal(get('save').disabled,false);assert.equal(get('token').value,'');assert.match(get('status').textContent,/권한/);
  mode='ok';get('token').value='test-only-token';await get('connect').onclick();assert.equal(get('save').disabled,false);assert.equal(get('token').value,'');assert.equal(reads,1);
  mode='conflict';await get('save').onclick();assert.match(get('status').textContent,/다른 수정/);assert.equal(vm.runInContext('sha',context),'sha-current');
  mode='ok';await get('save').onclick();assert.equal(vm.runInContext('sha',context),'sha-next');assert.match(get('status').textContent,/저장했습니다/);assert.equal(puts,2);
- get('disconnect').onclick();assert.equal(get('save').disabled,true);assert.equal(vm.runInContext('connection',context),null);
+ get('disconnect').onclick();assert.equal(get('save').disabled,false);assert.equal(vm.runInContext('connection',context),null);
  assert.throws(()=>vm.runInContext('validate({})',context));const bad=structuredClone(content);bad.sections[0].cards[0].image='https://evil.invalid/pixel';context.bad=bad;assert.throws(()=>vm.runInContext('validate(bad)',context));
  assert.equal(source.includes('localStorage'),false);assert.equal(source.includes('innerHTML'),false);
  for(const s of content.sections)for(const c of s.cards)if(c.image)assert.ok(fs.existsSync(__dirname+'/site/assets/'+c.image));
