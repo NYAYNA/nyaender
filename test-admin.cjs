@@ -10,7 +10,17 @@ async function run(){const nodes=new Map();const get=id=>{if(!nodes.has(id))node
  if(o.method==='PUT'){puts++;const body=JSON.parse(o.body);assert.equal(body.branch,'main');assert.equal(body.sha,'sha-current');const d=JSON.parse(Buffer.from(body.content,'base64').toString('utf8'));assert.equal(d.title,content.title);if(mode==='conflict')return{ok:false,status:409};return{ok:true,json:async()=>({content:{sha:'sha-next'}})};}
  reads++;return{ok:true,json:async()=>({sha:'sha-current',content:Buffer.from(JSON.stringify(content)).toString('base64')})};
  }};vm.createContext(context);vm.runInContext(source,context);await new Promise(setImmediate);assert.ok(get('editor').children.length>0);assert.equal(vm.runInContext('connection',context),null);
- for(const [k,v]of Object.entries({owner:'NYAYNA',repo:'ender-run-wiki',branch:'main'}))get(k).value=v;
+ const runCode=s=>vm.runInContext(s,context);
+ const original=runCode('JSON.stringify(data)');
+ runCode('removeCard(data.sections[0],data.sections[0].cards[0])');assert.equal(runCode('data.sections[0].cards.length'),7);
+ runCode('removeSection(data.sections[0])');assert.equal(runCode('data.sections.length'),6);
+ runCode('undoStructure();undoStructure()');assert.equal(runCode('JSON.stringify(data)'),original);
+ runCode('addCard(data.sections[0]);undoStructure()');assert.equal(runCode('JSON.stringify(data)'),original);
+ runCode('addSection();undoStructure()');assert.equal(runCode('JSON.stringify(data)'),original);
+ runCode('busy=true;removeSection(data.sections[0]);busy=false');assert.equal(runCode('JSON.stringify(data)'),original);
+ runCode('while(data.sections.length)removeSection(data.sections[0]);validate(data)');assert.equal(runCode('data.sections.length'),0);
+ runCode('while(undoActions.length)undoStructure()');assert.equal(runCode('JSON.stringify(data)'),original);
+ runCode('dirty=false;location.hash=""'); for(const [k,v]of Object.entries({owner:'NYAYNA',repo:'ender-run-wiki',branch:'main'}))get(k).value=v;
  await get('connect').onclick();assert.match(get('status').textContent,/입력/);assert.equal(reads,0);
  mode='unauthorized';get('token').value='test-only-token';await get('connect').onclick();assert.equal(get('save').disabled,true);assert.equal(get('token').value,'');assert.match(get('status').textContent,/권한/);
  mode='ok';get('token').value='test-only-token';await get('connect').onclick();assert.equal(get('save').disabled,false);assert.equal(get('token').value,'');assert.equal(reads,1);
